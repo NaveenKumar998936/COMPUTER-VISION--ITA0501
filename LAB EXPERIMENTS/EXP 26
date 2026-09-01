@@ -1,0 +1,42 @@
+#26
+import cv2
+
+input_video = r"C:\Users\navee\Downloads\16570778_3840_2160_25fps.mp4"
+output_video = r"C:\Users\navee\Downloads\output_reversed.mp4"
+
+cap = cv2.VideoCapture(input_video)
+
+frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+fps = int(cap.get(cv2.CAP_PROP_FPS))
+
+fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+
+out = cv2.VideoWriter(
+    output_video,
+    fourcc,
+    fps,
+    (frame_width, frame_height)
+)
+
+frames = []
+
+while True:
+    ret, frame = cap.read()
+
+    if not ret:
+        break
+
+    frames.append(frame)
+
+cap.release()
+
+frames.reverse()
+
+for frame in frames:
+    out.write(frame)
+
+out.release()
+
+print("Reversed video saved successfully!")
+print(output_video)
